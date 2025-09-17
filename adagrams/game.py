@@ -33,34 +33,26 @@ def draw_letters():
     print(f"Ten Strings: {ten_strings}")
     return ten_strings
 
-
 def uses_available_letters(word, letters):
     letter_pool = get_letter_pool(letters)
-    count = 0
-    for w in word:
-        for letter in letters:
-            # Ignores case
-            if w.capitalize() == letter:
-                available = letter_pool[letter]
-                print(f"Letter: {letter} Pool amount: {available}")
-                
-                # If the pool has letters available -> increase count
-                if available > 0:
-                    letter_pool[letter] = available - 1
-                    count += 1
-    # If all letters were used -> return True
-    if count == len(word):
-        return True
-    return False
-        
-# Helper function to create letter pool dictionary
-def get_letter_pool(letter_pool):
-    count_dict = {}
-    for index in range(0, len(letter_pool)):
-        if letter_pool[index] not in count_dict:
-            count_dict[letter_pool[index]] = 1
+    
+    # Check each letter in the word
+    for letter in word.upper():  # Convert to uppercase
+        if letter in letter_pool and letter_pool[letter] > 0:
+            letter_pool[letter] -= 1
         else:
-            count_dict[letter_pool[index]] +=1
+            return False
+    
+    return True
+
+# Helper function to create letter pool dictionary
+def get_letter_pool(letter_list):
+    count_dict = {}
+    for letter in letter_list:
+        if letter in count_dict:
+            count_dict[letter] += 1
+        else:
+            count_dict[letter] = 1
     return count_dict
 
 def score_word(word):
