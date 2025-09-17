@@ -81,4 +81,42 @@ def score_word(word):
 
 
 def get_highest_word_score(word_list):
-    pass
+    best_word = ""
+    highest_score = 0
+    
+    for word in word_list:
+        current_score = score_word(word)
+  
+        print(f"\nCurrent word: {word} and score: {current_score}")
+        print(f"Best word: {best_word} and highest score: {highest_score}")
+        
+        # Find best word and highest_score
+        if current_score > highest_score:
+            highest_score = current_score
+            best_word = word
+        
+        # Handle Tie breaker
+        elif current_score == highest_score:
+            current_length = len(word)
+            best_length = len(best_word)
+            
+            print("\n==== Enterting Tie Breaker ====")
+            print(f"Length of {word}: {current_length}")
+            print(f"Length of {best_word}: {best_length}")
+            
+            # Rule: one word has 10 letters
+            # If the length of the best word is not 10 but the length
+            # of the current word is 10 -> current word is the new best
+            if best_length != 10 and current_length == 10:
+                best_word = word
+            
+            # Rule: prefer the word with fewest letters
+            # If the length of the best word is not 10 AND is more than the 
+            # length of the current word -> current word is the new best
+            elif best_length != 10 and current_length < best_length:
+                best_word = word
+
+            # else best_word remains unchanged
+    
+    print(f"\nFinal best word: {best_word} and highest score: {highest_score}")
+    return (best_word, highest_score)
